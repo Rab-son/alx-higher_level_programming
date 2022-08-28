@@ -1,36 +1,60 @@
-#include <stdio.h>
 #include "lists.h"
-/**
- * is_palindrome - a function that checks for palindrome
- * @head: pointer to a listint_t
- *
- * Return: 0 if it is not a palindrome, 1 if it is
- */
+
+void reverse_listint(listint_t **head)
+{
+	listint_t *prev = NULL;
+	listint_t *current = *head;
+	listint_t *next = NULL;
+
+	while (current)
+	{
+		next = current->next;
+		current->next = prev;
+		prev = current;
+		current = next;
+	}
+
+	*head = prev;
+}
+
 int is_palindrome(listint_t **head)
 {
-	listint_t *temp;
-	int length = 0, initial = 0;
-	char buffer[1000];
+	listint_t *slow = *head, *fast = *head, *temp = *head, *dup = NULL;
 
-	if (*head == NULL)
+	if (*head == NULL || (*head)->next == NULL)
 		return (1);
-	temp = *head;
-	while (temp != NULL)
+
+	while (1)
 	{
-		buffer[length] = temp->n;
-		length++;
-		temp = temp->next;
-	}
-	length--;
-	while (initial < length)
-	{
-		if (buffer[initial] == buffer[length])
+		fast = fast->next->next;
+		if (!fast)
 		{
-			initial++;
-			length--;
+			dup = slow->next;
+			break;
+		}
+		if (!fast->next)
+		{
+			dup = slow->next->next;
+			break;
+		}
+		slow = slow->next;
+	}
+
+	reverse_listint(&dup);
+
+	while (dup && temp)
+	{
+		if (temp->n == dup->n)
+		{
+			dup = dup->next;
+			temp = temp->next;
 		}
 		else
 			return (0);
 	}
-	return (1);
+
+	if (!dup)
+		return (1);
+
+	return (0);
 }
