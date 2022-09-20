@@ -1,68 +1,70 @@
 #!/usr/bin/python3
-""" Creates an empty class called Rectangle
+
+"""
+This module creates a class called Rectangle.
 """
 
 
 class Rectangle:
-    """ Empty class using pass
-    """
+    """A rectangle class."""
+
     def __init__(self, width=0, height=0):
-        if type(width) is not int:
-            raise TypeError("width must be an integer")
-        if width < 0:
-            raise ValueError("width must be >= 0")
-        if type(height) is not int:
-            raise TypeError("height must be an integer")
-        if height < 0:
-            raise ValueError("height must be >= 0")
+        """Initialize class."""
         self.width = width
         self.height = height
 
     @property
     def width(self):
+        """To retrieve width."""
         return self.__width
 
     @width.setter
     def width(self, value):
-        if isinstance(value, int) is not True:
-            raise TypeError("width must be an integer")
+        """To set width."""
+        if not isinstance(value, int):
+            raise TypeError('width must be an integer')
         if value < 0:
-            raise ValueError("width must be >= 0")
+            raise ValueError('width must be >= 0')
         self.__width = value
 
     @property
     def height(self):
+        """To retrieve height."""
         return self.__height
 
     @height.setter
     def height(self, value):
-        if isinstance(value, int) is not True:
-            raise TypeError("height must be an integer")
+        """To set height."""
+        if not isinstance(value, int):
+            raise TypeErroe('height must be an integer')
         if value < 0:
-            raise ValueError("height must be >= 0")
+            raise ValueError('height must be >= 0')
         self.__height = value
 
     def area(self):
-        return self.__height * self.__width
+        """Returns the rectangle area."""
+        return self.__width * self.__height
 
     def perimeter(self):
-        if self.width == 0 or self.height == 0:
+        """Returns the rectangle perimeter."""
+        if self.__width == 0 or self.__height == 0:
             return 0
-        return 2 * self.__height + 2 * self.__width
+        else:
+            return (self.__width * 2) + (self.__height * 2)
 
     def __str__(self):
-        if self.__height <= 0 or self.__width <= 0:
+        """Returns the rectangle with the character #."""
+        str = ""
+        if self.__width != 0 or self.__height != 0:
+            for row in range(self.__height):
+                for col in range(self.__width):
+                    str += '#'
+                if row < self.__height - 1:
+                    str += '\n'
+            return str
+        else:
             return ""
-        string = ""
-        for i in range(self.__height):
-            string += "#" * self.__width
-            string += '\n'
-        return string
 
     def __repr__(self):
-        if self.__height <= 0 or self.__width <= 0:
-            return ""
-        string = ""
-        string = "Rectangle(" + str(self.width) + ", " + str(self.height)
-        string += ")\n"
-        return string
+        """Returns a string representation of the rectangle"""
+        return 'Rectangle(%s, %s)' % (self.__width, self.__height)
